@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>QG-UI</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+  </head>
+  <body>
+    <div class="container-fluid">
+      <h1 >QG-UI</h1><hr>
+    </div>
+    <div class="container-fluid">
+      <form class="" action="/" method="post">
+        <textarea id="textarea1" class="textarea" name="para" rows="15"></textarea><br>
+        <div class="row">
+          <div class="col-sm-9">
+            <p>Word Count:
+              <span id="WordCount">
+                <font color="red">0
+                </font>
+              </span>
+               (Word count must be between 300-3000.)
+             </p>
+          </div>
+          <div class="col-sm-3">
+              <button type="submit" id="proceedBtn" disabled title="Word count must be between 300-3000 to proceed" class="btn btn-primary" style="float:right">Proceed</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/javascripts/index.js"></script>
+  </body>
+</html>

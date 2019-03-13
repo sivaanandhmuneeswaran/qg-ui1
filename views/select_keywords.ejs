@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>QG-UI</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+         rel = "stylesheet">
+    <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <h1 >QG-UI</h1><hr>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+            <button class="tablink" onclick="openTab(event,'np')" id="defaultOpen">Noun Phrase</button>
+        </div>
+        <div class="col-sm-6">
+            <button class="tablink" onclick="openTab(event,'ner')" >Named Entity</button>
+        </div>
+      </div>
+      <br>
+      <div class="">
+        <form id="keyword_form" action="/questions" method="post">
+          <div id="np" class="keyword_button_np tabcontent">
+            <h4>Noun phrase keywords (Count: <%= np_tagged_para.length %>)</h4>
+            <ul id="selectable1">
+              <% for(var i=0; i < np_tagged_para.length; i++) {%>
+
+                <li><button id="button" type="button" class="btn btn-outline-success np" data-val="<%= np_tagged_para[i].index %>"><%= np_tagged_para[i].answer %></button></li>
+              <% } %>
+            </ul>
+
+          </div><br>
+          <div id="ner" class="keyword_button_ner tabcontent">
+            <h4>Named Entities keywords (Count: <%= ner_tagged_para.length %>)</h4>
+            <ul id="selectable2">
+              <% for(var i=0; i < ner_tagged_para.length; i++) {%>
+
+                <li><button id="button" type="button" class="btn btn-outline-success ner" data-val="<%= ner_tagged_para[i].index %>"><%= ner_tagged_para[i].answer %></button></li>
+              <% } %>
+            </ul>
+
+          </div><br>
+          <div class="col-sm-3">
+              <button type="submit" id="proceedBtn" class="btn btn-primary" style="float:right">Proceed</button>
+          </div>
+        </form>
+      </div>
+
+
+    </div>
+    <script src="javascripts/select_keywords.js"></script>
+
+  </body>
+</html>
