@@ -7,28 +7,50 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
   </head>
-  <body>
-    <div class="container-fluid">
-      <h1 >QG-UI</h1><hr>
-    </div>
-    <div class="container-fluid">
-      <form class="" action="/" method="post">
-        <textarea id="textarea1" class="textarea" name="para" rows="15"></textarea><br>
-        <div class="row">
-          <div class="col-sm-9">
-            <p>Word Count:
-              <span id="WordCount">
-                <font color="red">0
-                </font>
-              </span>
-               (Word count must be between 300-3000.)
-             </p>
-          </div>
-          <div class="col-sm-3">
-              <button type="submit" id="proceedBtn" disabled title="Word count must be between 300-3000 to proceed" class="btn btn-primary" style="float:right">Proceed</button>
-          </div>
+  <body style="background:lavender">
+    <div class="row">
+      <div class="col-lg-10">
+        <div class="container-fluid">
+          <h1 >QG-UI</h1><hr>
         </div>
-      </form>
+        <div class="container-fluid" style="height:530px">
+          <form class="" action="/" method="post">
+            <textarea id="textarea1" class="textarea form-control" name="para"  style="height:460px"></textarea><br>
+            <div class="row">
+              <div class="col-sm-9">
+                <p>Word Count:
+                  <span id="WordCount">
+                    <font color="red">0
+                    </font>
+                  </span>
+                   (Word count must be between 300-3000.)
+                 </p>
+              </div>
+              <div class="col-sm-3">
+                  <button type="submit" id="proceedBtn" disabled title="Word count must be between 300-3000 to proceed" class="btn btn-primary" style="float:right">Proceed</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <nav class="navbar  bg-secondary navbar-dark" style="height:100%">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <h5 class="nav-link active">Submit Content</h5>
+            </li><br>
+            <li class="nav-item">
+              <h5 class="nav-link">Review Content</h5>
+            </li><br>
+            <li class="nav-item">
+              <h5 class="nav-link">Choose keywords</h5>
+            </li><br>
+            <li class="nav-item">
+              <h5 class="nav-link">Questions</h5>
+            </li><br>
+          </ul>
+        </nav>
+      </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

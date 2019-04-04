@@ -5,7 +5,8 @@ import json
 nlp = StanfordCoreNLP('http://localhost:9000')
 # #file_name = 'test1.txt'
 file_name = sys.argv[1]
-input = open(file_name).read().splitlines()
+input = file_name.splitlines()
+# input = open(file_name).read().splitlines()
 i = 0
 ans_index=1
 res_sentence_arr = []

@@ -14,7 +14,7 @@ with open(file_name) as json_file:
 # inputc[1]["question"] = "What is question2"
 for i in range(0,len(input)):
     c1 = "STR=\""+input[i]["tagged_sentence"]+"\""
-    c2 = """curl -i -X POST -H "Content-Type: application/json" -d "[{\\"src\\":\\"$STR\\", \\"id\\": 1}]"  http://10.129.2.77:5002/translator/translate"""
+    c2 = """curl -i -X POST -H "Content-Type: application/json" -d "[{\\"src\\":\\"$STR\\", \\"id\\": 1}]"  http://0.0.0.0:5000/translator/translate"""
     commands = c1+'\n'+c2
     process = subprocess.Popen('/bin/bash', stdin=subprocess.PIPE, stdout=subprocess.PIPE)
     out, err = process.communicate(commands.encode('utf-8'))
@@ -22,7 +22,11 @@ for i in range(0,len(input)):
     res = re.search(r"\"tgt\":\"(.*)\"",res_str)
     input[i]["question"] = res.group(1)
 
+str = ''
 data = json.dumps(input,ensure_ascii=False)
+# for i in range(0,len(input)):
+#     str = str + "'" +input[i]['answer'] + "'" +','
+# print(str)
 print(data)
 # with open('out.json','w') as out:
 #     json.dump(input,out,ensure_ascii=False)

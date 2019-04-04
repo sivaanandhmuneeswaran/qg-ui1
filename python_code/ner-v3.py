@@ -4,7 +4,8 @@ import json
 nlp = StanfordCoreNLP('http://localhost:9000')
 #file_name = 'test1.txt'
 file_name = sys.argv[1]
-input = open(file_name).read().splitlines()
+input = file_name.splitlines()
+# input = open(file_name).read().splitlines()
 i = 0
 ans_index=1
 res_sentence_arr = []
@@ -29,7 +30,7 @@ while (i<len(input)):
             if w_ner != 'O':
                 count = count+1
             words_ner.append((w,w_ner))
-    
+
     if(count == 0):
         i=i+1
         continue
@@ -63,7 +64,7 @@ while (i<len(input)):
                         elif flag == 1 and (j not in index_arr) :
                             index_arr.append(j)
                             res_sentence += w + u"\uffe8I_ANS "
-                            
+
                             if(j!=(len(words_ner)-1)):
                                 if (words_ner[j+1][1] == 'O'):
                                     t_flag = 1

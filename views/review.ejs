@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>QG-UI</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+  </head>
+  <body style="background:lavender; display: table;">
+    <div class="row" style="height:100%">
+      <div class="col-lg-10">
+        <div class="container-fluid">
+          <h1 >QG-UI</h1><hr>
+        </div>
+        <div class="container-fluid">
+          <form id="review_form" class="" action="/keywords" method="post">
+            <div id="textarea1" name="para" contenteditable="true" class="review form-control"  style="height:460px">
+              <%- input %>
+            </div><br>
+            <div class="row">
+              <div class="col-sm-9">
+                <p>Word Count:
+                  <span id="WordCount">
+                    <font color="red">0
+                    </font>
+                  </span>
+                   (Word count must be between 300-3000.)
+                 </p>
+              </div>
+              <div class="col-sm-3">
+                  <button type="submit" id="proceedBtn" disabled title="Word count must be between 300-3000 to proceed" class="btn btn-primary" style="float:right">Proceed</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <nav class="navbar  bg-secondary navbar-dark" style="height:100%">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <h5 class="nav-link">Submit Content</h5>
+            </li><br>
+            <li class="nav-item">
+              <h5 class="nav-link active">Review Content</h5>
+            </li><br>
+            <li class="nav-item">
+              <h5 class="nav-link">Choose keywords</h5>
+            </li><br>
+            <li class="nav-item">
+              <h5 class="nav-link">Questions</h5>
+            </li><br>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/javascripts/review.js"></script>
+  </body>
+</html>

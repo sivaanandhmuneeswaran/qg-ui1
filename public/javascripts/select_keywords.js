@@ -1,21 +1,21 @@
 $(document).ready(function(){
   $("#selectable1").selectable({
     stop: function(){
-      $(".ui-selected.np:button").toggleClass("btn btn-outline-success");
+      $(".ui-selected.np:button").toggleClass("btn-outline-success btn-outline-secondary");
     }
   });
   $("#selectable2").selectable({
     stop: function(){
-      $(".ui-selected.ner:button").toggleClass("btn btn-outline-success");
+      $(".ui-selected.ner:button").toggleClass("btn-outline-success btn-outline-secondary");
     }
   });
   document.getElementById("defaultOpen").click();
   $(".keyword_button_np").find(":button").click(function(){
-    $(this).toggleClass("btn btn-outline-success");
+    $(this).toggleClass("btn-outline-success btn-outline-secondary");
     var data = $(this).data('val');
   });
   $(".keyword_button_ner").find(":button").click(function(){
-    $(this).toggleClass("btn btn-outline-success");
+    $(this).toggleClass("btn-outline-success btn-outline-secondary");
     var data = $(this).data('val');
   });
   $("#proceedBtn").click(function(){
@@ -30,6 +30,7 @@ $(document).ready(function(){
     var np_input = $("<input>")
                .attr("type", "hidden")
                .attr("name", "np_data").val(JSON.stringify(npKeywordArr));
+               
     var ner_input = $("<input>")
               .attr("type", "hidden")
               .attr("name", "ner_data").val(JSON.stringify(nerKeywordArr));
