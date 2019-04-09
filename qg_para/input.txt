@@ -1,5 +1,5 @@
 
-               welcome to the spoken tutorial on classes and objects in c++.
+ welcome to the spoken tutorial on classes and objects in c++.
  in this tutorial we will learn,
 classes.
 objects.

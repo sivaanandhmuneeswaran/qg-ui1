@@ -1,36 +1,60 @@
 
 $(document).ready(function (){
-
   var words_count=$("#textarea1").text().match(/\S+/g).length;
-  // alert($("#textarea1").text());
-  if (words_count >= 300 && words_count <= 3000)
-  {
-    $("#WordCount > font").attr("color","blue");
-    $("#proceedBtn").removeAttr("disabled");
-    $("#proceedBtn").removeAttr("title");
-  }
-  else {
-    $("#WordCount > font").attr("color","red");
+  var flag;
+  if($("#textarea1").text().match(/([^\s!@#$%^&*\.\'\-\(\)\/<>;\":\?\{\}\[\]+=,a-zA-Z0-9])/gi)){
+    flag=true;
     $("#proceedBtn").attr("disabled",true);
-    $("#proceedBtn").attr("title","Word count must be between 300-3000 to proceed");
   }
-  $("#WordCount > font").text(words_count);
-  $("#textarea1").on("keyup",function(){
-    var words = $(this).text().match(/\S+/g).length;
-    if (words >= 300 && words <= 3000)
+    if (words_count >= 100 && words_count <= 3000)
     {
       $("#WordCount > font").attr("color","blue");
-      $("#proceedBtn").removeAttr("disabled");
-      $("#proceedBtn").removeAttr("title");
+      if(!flag){
+        $("#proceedBtn").removeAttr("disabled");
+        $("#proceedBtn").removeAttr("title");
+      }
+
     }
     else {
       $("#WordCount > font").attr("color","red");
       $("#proceedBtn").attr("disabled",true);
-      $("#proceedBtn").attr("title","Word count must be between 300-3000 to proceed");
+      $("#proceedBtn").attr("title","Word count must be between 100-3000 to proceed");
+    }
+
+  // alert($("#textarea1").text());
+
+  $("#WordCount > font").text(words_count);
+  $("#textarea1").on("keyup",textChange);
+  $("#textarea1").on("click",textChange);
+  function textChange(){
+    // $("#textarea1").text().replace(/([^\\\\\s!@#$%^&*\.\'\-\(\)\/<>;\":\?\{\}\[\]+=,a-zA-Z0-9])/gi, '<span class="atsign">$1</span>');
+
+    var words = $(this).text().match(/\S+/g).length;
+    var flag1;
+    if($("#textarea1").text().match(/([^\s!@#$%^&*\.\'\-\(\)\/<>;\":\?\{\}\[\]+=,a-zA-Z0-9])/gi)){
+      flag1=true;
+      $("#proceedBtn").attr("disabled",true);
+    }
+    else{
+      $("#proceedBtn").removeAttr("disabled");
+      flag1=false;
+    }
+    if (words >= 100 && words <= 3000)
+    {
+      $("#WordCount > font").attr("color","blue");
+      if(!flag1){
+        $("#proceedBtn").removeAttr("disabled");
+        $("#proceedBtn").removeAttr("title");
+      }
+
+    }
+    else {
+      $("#WordCount > font").attr("color","red");
+      $("#proceedBtn").attr("disabled",true);
+      $("#proceedBtn").attr("title","Word count must be between 100-3000 to proceed");
     }
     $("#WordCount > font").text(words);
-  });
-
+  }
   $("#proceedBtn").click(function(){
     var input = $("<input>")
                .attr("type", "hidden")
@@ -38,5 +62,8 @@ $(document).ready(function (){
    $('#review_form').append(input);
   });
 
+  $(".reviewDeleteBtn").click(function(){
+    $(this).parent().remove();
+  });
 
 });

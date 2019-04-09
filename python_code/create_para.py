@@ -4,6 +4,8 @@ import sys
 import json
 import os
 file_name = sys.argv[1]
+
+
 # input_txt = open(file_name).read()
 # split_txt = re.split('\s*',input_txt)
 split_txt = re.split('\s*',file_name)
@@ -15,7 +17,11 @@ flag = 0
 temp_i=[0]
 while(i<len(split_txt)):
     if(count>200):
-        for j in range(i,(i+100)):
+        if((i+100) < len(split_txt)):
+            j_range = i+100
+        else:
+            j_range = len(split_txt)-1
+        for j in range(i,j_range):
             r = re.search(r'.*\.$',split_txt[j])
             if(r):
                 res = res + split_txt[j]

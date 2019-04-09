@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  document.getElementById("defaultOpen").click();
   $(".origQuestion").click(function(){
     alert($(this).parent().data('val').question);
   });
@@ -42,7 +43,6 @@ $(document).ready(function(){
       res.push({id:id,sentence:original_sentence,answer:answer,question:question});
       id = id+1;
     });
-    console.log(res);
     var a = document.createElement("a");
     var file = new Blob([JSON.stringify(res)], {type: 'text/plain'});
     a.href = URL.createObjectURL(file);
@@ -50,3 +50,16 @@ $(document).ready(function(){
     a.click();
   });
 });
+function openTab(evt, tabName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " active";
+}

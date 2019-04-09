@@ -2,10 +2,13 @@ h1 {
   color: blue;
   margin-left: 20px;
 }
-
+.anchorCSS{
+  text-decoration:none;margin-top:0;margin-bottom:.5rem;font-weight:500;line-height:1.2;font-size:2.5rem;margin-left: 20px;color:blue;
+}
 body{
   background: lavender;
 }
+
 .textarea{
   resize: none;
   width: 100%;
@@ -36,6 +39,7 @@ div.review {
   border-width: 1px;
   width: 100%;
   height: 50%;
+  font-size: 16px;
   overflow-y: auto;
 }
 
@@ -57,3 +61,23 @@ div.review {
   border: none;
   background: none;
 }
+.padding-0{
+    padding-right:0;
+    padding-left:0;
+}
+.ner {
+  margin-top:2px;
+  margin-bottom:2px;
+}
+.np {
+  margin-top:2px;
+  margin-bottom:2px;
+}
+.reviewDeleteBtn {
+  color:white;
+  border: none;
+  background: none;
+  padding: 0px 0px 0px 0px;
+}
+.w3-small{font-size:12px!important}
+.w3-xxlarge{font-size:36px!important}

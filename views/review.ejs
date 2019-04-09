@@ -4,32 +4,34 @@
     <meta charset="utf-8">
     <title>QG-UI</title>
     <link rel="stylesheet" type="text/css" href="/stylesheets/styles.css">
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
   </head>
   <body style="background:lavender; display: table;">
-    <div class="row" style="height:100%">
+    <div class="row no-gutters" style="height:100vh">
       <div class="col-lg-10">
         <div class="container-fluid">
-          <h1 >QG-UI</h1><hr>
+          <a href="/" style="text-decoration:none" class="anchorCSS">QG-UI</a><hr>
         </div>
         <div class="container-fluid">
           <form id="review_form" class="" action="/keywords" method="post">
-            <div id="textarea1" name="para" contenteditable="true" class="review form-control"  style="height:460px">
+            <div id="textarea1" name="para" contenteditable="true" class="review form-control"  style="height:70vh">
               <%- input %>
             </div><br>
             <div class="row">
-              <div class="col-sm-9">
+              <div class="col-lg-9">
                 <p>Word Count:
                   <span id="WordCount">
                     <font color="red">0
                     </font>
                   </span>
-                   (Word count must be between 300-3000.)
+                   (Word count must be between 100-3000.)
                  </p>
               </div>
-              <div class="col-sm-3">
-                  <button type="submit" id="proceedBtn" disabled title="Word count must be between 300-3000 to proceed" class="btn btn-primary" style="float:right">Proceed</button>
+              <div class="col-lg-3">
+                  <button type="submit" id="proceedBtn" disabled title="Word count must be between 100-3000 to proceed" class="btn btn-primary" style="float:right">Proceed</button>
               </div>
             </div>
           </form>

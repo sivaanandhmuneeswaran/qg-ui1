@@ -11,10 +11,10 @@
     <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
   </head>
   <body style="background:lavender">
-    <div class="row">
+    <div class="row no-gutters" style="height:100vh">
       <div class="col-lg-10">
         <div class="container-fluid">
-          <h1 >QG-UI</h1><hr>
+          <a href="/" style="text-decoration:none" class="anchorCSS">QG-UI</a><hr>
         </div>
         <div class="container-fluid">
           <div class="row">
@@ -24,32 +24,29 @@
             <div class="col-lg-2">
                 <button class="tablink" onclick="openTab(event,'ner')" >Named Entity</button>
             </div>
-          </div>
+          </div><br>
           <div class="">
             <form id="keyword_form" action="/questions" method="post">
-              
               <div id="np" class="keyword_button_np tabcontent">
                 <h4>Noun phrase keywords (Count: <%= np_tagged_para.length %>)</h4>
-                <div class="review form-control" style="height:385px">
-
+                <div class="review form-control" style="height:59vh">
                   <ul id="selectable1">
                     <% for(var i=0; i < np_tagged_para.length; i++) {%>
-
-                      <li><button id="button" type="button" class="btn btn-outline-success np" data-val="<%= np_tagged_para[i].index %>"><%= np_tagged_para[i].answer %></button></li>
+                      <li><button id="button" type="button" class="btn btn-outline-success np"  data-val="<%= np_tagged_para[i].index %>"><%= np_tagged_para[i].answer %></button></li>
                     <% } %>
                   </ul>
                 </div>
-              </div><br>
+              </div>
               <div id="ner" class="keyword_button_ner tabcontent">
                 <h4>Named Entities keywords (Count: <%= ner_tagged_para.length %>)</h4>
-                <div class="review form-control" style="height:380px">
+                <div class="review form-control" style="height:59vh">
                   <ul id="selectable2">
                     <% for(var i=0; i < ner_tagged_para.length; i++) {%>
                       <li><button id="button" type="button" class="btn btn-outline-success ner" data-val="<%= ner_tagged_para[i].index %>"><%= ner_tagged_para[i].answer %></button></li>
                     <% } %>
                   </ul>
                 </div>
-              </div>
+              </div><br>
               <div class="col-lg-12">
                   <button type="submit" id="proceedBtn" class="btn btn-primary" style="float:right">Proceed</button>
               </div>

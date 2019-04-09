@@ -30,7 +30,7 @@ $(document).ready(function(){
     var np_input = $("<input>")
                .attr("type", "hidden")
                .attr("name", "np_data").val(JSON.stringify(npKeywordArr));
-               
+
     var ner_input = $("<input>")
               .attr("type", "hidden")
               .attr("name", "ner_data").val(JSON.stringify(nerKeywordArr));
