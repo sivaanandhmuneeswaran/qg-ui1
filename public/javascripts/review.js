@@ -2,7 +2,7 @@
 $(document).ready(function (){
   var words_count=$("#textarea1").text().match(/\S+/g).length;
   var flag;
-  if($("#textarea1").text().match(/([^\s!@#$%^&*\.\'\-\(\)\/<>;\":\?\{\}\[\]+=,a-zA-Z0-9])/gi)){
+  if($("#textarea1").text().match(/([^\\\\\s!@#$%^&*\.\'\-\(\)\/<>;\":\?\{\}\[\]+=,a-zA-Z0-9])/gi)){
     flag=true;
     $("#proceedBtn").attr("disabled",true);
   }
@@ -31,7 +31,7 @@ $(document).ready(function (){
 
     var words = $(this).text().match(/\S+/g).length;
     var flag1;
-    if($("#textarea1").text().match(/([^\s!@#$%^&*\.\'\-\(\)\/<>;\":\?\{\}\[\]+=,a-zA-Z0-9])/gi)){
+    if($("#textarea1").text().match(/([^\\\\\s!@#$%^&*\.\'\-\(\)\/<>;\":\?\{\}\[\]+=,a-zA-Z0-9])/gi)){
       flag1=true;
       $("#proceedBtn").attr("disabled",true);
     }

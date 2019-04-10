@@ -14,6 +14,13 @@ body{
   width: 100%;
 }
 
+.answerPair{
+  resize: none;
+  border:none;
+  border-bottom-style: dashed;
+  border-color: green;
+}
+
 .tablink {
   background-color: cadetblue;
   color: white;
@@ -56,10 +63,12 @@ div.review {
             font-weight: bold;
 }
 
-.deleteBtn {
+.editBtn,.saveBtn,.deleteBtn,.descBtn,.viewAnsBtn {
   background-color: none;
   border: none;
   background: none;
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
 }
 .padding-0{
     padding-right:0;

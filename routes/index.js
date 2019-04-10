@@ -16,7 +16,7 @@ router.post('/', async function (req, res, next) {
   var pythonPath = "python ";
   var codePath = __basedir + "/python_code/create_para.py ";
   var generateParaCommand = pythonPath + codePath ;
-  input = input.replace(/([\"\\])/gi,("\\"+'$1'));
+  input = input.replace(/((\"|\\))/gi,("\\"+'$1'));
   input = "\"" + input + "\""
   var result = spawn(generateParaCommand,[input],{shell:true,
    encoding: 'utf-8'});
@@ -28,7 +28,7 @@ router.post('/', async function (req, res, next) {
 
 router.post('/keywords', function(req,res,next){
   var input = req.body.para.toLowerCase();
-  input = input.replace(/([\"\\])/gi,("\\"+'$1'));
+  input = input.replace(/((\"|\\))/gi,("\\"+'$1'));
   var pythonPath = "python ";
   var codePath = __basedir + "/python_code/create_para.py ";
   var generateParaCommand = pythonPath + codePath ;
@@ -80,9 +80,9 @@ router.post('/questions',function(request, response,next){
       }
     }
   }
-
   var regex = /{(.*)}/g
   for(var i=0; i <keywordArr.length; i++){
+    keywordArr[i].tagged_sentence = keywordArr[i].tagged_sentence.replace(/((\"|\\))/gi,("\\\\"+'$1'));
     c1 = "STR=\""+keywordArr[i].tagged_sentence+"\""
     c2 = 'curl -i -X POST -H "Content-Type: application/json" -d "[{\\"src\\":\\"$STR\\", \\"id\\": 1}]"  http://0.0.0.0:5000/translator/translate'
     commands = c1+'\n'+c2

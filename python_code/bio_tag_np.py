@@ -6,8 +6,8 @@ import re
 nlp = StanfordCoreNLP('http://localhost:9000')
 # #file_name = 'test1.txt'
 file_name = sys.argv[1]
-file_name1 = re.sub('([.,!?()])',r'\1 ',file_name)
-input = file_name1.splitlines()
+# file_name1 = re.sub('([.,!?()])',r'\1 ',file_name)
+input = file_name.splitlines()
 # input = open(file_name).read().splitlines()
 i = 0
 ans_index=1

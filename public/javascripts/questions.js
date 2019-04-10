@@ -6,26 +6,37 @@ $(document).ready(function(){
   $(".origAnswer").click(function(){
     alert($(this).parent().data('val').answer);
   });
-  $(".span:button").click(function(){
-    if($(this).text() === "View paragraph"){
-      var origSentence = $(this).parent().data('val').original_sentence;
-      var answer = $(this).parent().data('val').answer;
-      var para = origSentence.replace(answer,answer.fontcolor("green"));
-      $(this).parent().find(".dialog-1").append("<br>" +para);
-      // $(this).parent().find(".dialog-1").find(".closebutton").css("visibility",'visible');
-      $(this).parent().find(".dialog-1").dialog("open");
-
+  $(".span.editBtn").click(function(){
+    $(this).parent().parent().parent().find(".answerPair").attr("readonly",false);
+    $(this).parent().parent().find(".span, .saveBtn").css("visibility",'visible');
+  });
+  $(".span.saveBtn").click(function(){
+    $(this).css("visibility",'hidden');
+    $(this).parent().parent().parent().find(".answerPair").attr("readonly",true);
+    var questionPair = $(this).parent().parent().parent().parent().find("span").data('val');
+    console.log(questionPair);
+    var editedAns = $(this).parent().parent().parent().find(".answerPair").val();
+    if(questionPair.editedAns)
+    {
+      questionPair.editedAns.push({timestamp:new Date(),editedAns:editedAns});
     }
-    else if($(this).text() === "Edit question"){
+    else{
+      questionPair.editedAns = [];
+      questionPair.editedAns.push({timestamp:new Date(),editedAns:editedAns});
+    }
+    var id = "#span" + questionPair.index.toString();
+    console.log(id);
+    $(id).data('val',questionPair);
+  });
+
+  $(".span:button").click(function(){
+    if($(this).text() === "Edit question"){
       $(this).parent().find(".ques").attr("readonly",false);
       $(this).parent().find(".origQuestion").css("visibility",'visible');
       // $(this).parent().find(".saveBtn").css("visibility",'visible');
       // // alert("hello");
     }
-    else if($(this).text() === "Edit answer"){
-      $(this).parent().find(".answer").attr("readonly",false);
-      $(this).parent().find(".origAnswer").css("visibility",'visible');
-    }
+
     // else if($(this).text() === "Save question"){
     //   $(this).parent().find("textarea").attr("readonly",false);
     // }
@@ -62,4 +73,36 @@ function openTab(evt, tabName) {
   }
   document.getElementById(tabName).style.display = "block";
   evt.currentTarget.className += " active";
+}
+function view(event){
+  var btn = event.target;
+  var origSentence = $(btn).parent().parent().data('val').tagged_sentence;
+  var taggedSentence = origSentence.replace(/\uffe8O_ANS/gi, '');
+  taggedSentence = taggedSentence.replace(/([\\\\!@#$%^&*\.\'\-\(\)\/<>;\":\?\{\}\[\]+=,a-zA-Z0-9]+)(\uffe8B_ANS|\uffe8I_ANS)/gi, '<span style="color:white;background-color:green">$1</span>');
+  $(btn).parent().parent().find(".modal-body").html(taggedSentence);
+}
+function viewAnsLog(event){
+  var btn = event.target;
+  var questionPair = $(btn).parent().parent().parent().parent().find("span").data('val');
+  console.log(questionPair)
+  var html = "";
+  if(questionPair.editedAns){
+    html = `
+      <table width="100%" style="table-layout:fixed;">
+        <tr>
+          <th width="50%">Edited Answer</th>
+          <th width="50%">Timestamp</th>
+        </tr>
+    `;
+    for(var i = 0; i < questionPair.editedAns.length; i++)
+    {
+      html = html + "<tr><td width=\"50%\" style=\"word-wrap:break-word;\">" + questionPair.editedAns[i].editedAns + "</td><td width=\"50%\" style=\"word-wrap:break-word;\">" + questionPair.editedAns[i].timestamp + "</td></tr>";
+    }
+    html = html + "</table>";
+  }
+  else {
+    html = html + "<h6>No changes made to answer</h6>";
+  }
+  var id = "#ansLog" + questionPair.index.toString();
+  $(id).find(".modal-body").html(html);
 }
