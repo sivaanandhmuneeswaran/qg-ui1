@@ -7,6 +7,8 @@ const session = require('express-session');
 /* GET home page. */
 npTaggedPara = null
 nerTaggedPara = null
+
+
 router.get('/', function(req, res, next) {
   res.render('index', {});
 });
@@ -42,8 +44,6 @@ router.post('/keywords', function(req,res,next){
   var result_np = spawn(generateTaggedParaCommand,[inpParaFile],{shell:true,
    encoding: 'utf-8'});
 
-
-
   // //NER tagging
   tagCodePath = __basedir + "/python_code/ner-v3.py ";
   generateTaggedParaCommand = pythonPath + tagCodePath;
@@ -60,8 +60,6 @@ router.post('/questions',function(request, response,next){
   npKeywordIndex = JSON.parse(request.body.np_data);
   nerKeywordIndex = JSON.parse(request.body.ner_data);
 
-  var index=-1;
-
   for(var i=0; i<npKeywordIndex.length;i++){
     for(var j=0; j<npTaggedPara.length;j++){
       if(parseInt(npTaggedPara[j].index) === npKeywordIndex[i]){
@@ -71,7 +69,6 @@ router.post('/questions',function(request, response,next){
     }
   }
 
-  index = -1;
   for(var i=0; i<nerKeywordIndex.length;i++){
     for(var j=0; j<nerTaggedPara.length;j++){
       if(parseInt(nerTaggedPara[j].index) === nerKeywordIndex[i]){
@@ -79,6 +76,10 @@ router.post('/questions',function(request, response,next){
         break;
       }
     }
+  }
+  for(var i = 0; i < keywordArr.length; i++)
+  {
+    keywordArr[i].index = i + 1;
   }
   var regex = /{(.*)}/g
   for(var i=0; i <keywordArr.length; i++){

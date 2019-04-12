@@ -3,12 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title>QG-UI</title>
-
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="stylesheets/styles.css">
   </head>
   <body style="background:lavender">
@@ -30,100 +31,161 @@
             <div id="normal_pair" class="tabcontent">
               <form id="keyword_form" action="/questions" method="post">
                 <div>
-                  <h4>Number of questions generated : <%= generatedQuestion.length %></h4><br>
+                  <h4 class="quesPairLength"></h4><br>
+                  <table class="display" id="quesPair">
+                    <thead>
+                      <th>Question Answer Pair</th>
+                    </thead>
+                    <tbody>
                   <% for(var i=0; i < generatedQuestion.length; i++) {%>
-                    <div class="review form-control qsPair">
-                      <span id="span<%=generatedQuestion[i].index %>" data-val="<%= JSON.stringify(generatedQuestion[i]) %>" style="display: block;border-radius: 5px 5px 5px;border: 1px solid #777;">
-                        <button type="button" style="float:right" title="Delete this question answer pair" class="deleteBtn"><i class="w3-xxlarge material-icons">delete</i></button>
-                        <button type="button" class="span descBtn" style="float:right" title="View Source Paragraph" name="button" onclick="view(event)" data-toggle="modal" data-target="#modal<%=generatedQuestion[i].index %>"><i class="w3-xxlarge material-icons">description</i></button><br>
-                        <div class="">
-                          Question Generated : <div class="ques">
-                                                  <select onchange="this.nextElementSibling.value=this.value">
-                                                    <% for(var j=0; j < generatedQuestion[i].question.length ; j++) {%>
-                                                      <option value="<%= generatedQuestion[i].question[j] %>"><%= generatedQuestion[i].question[j] %> <%=  parseFloat(generatedQuestion[i].score[j]).toFixed(3) %></option>
-                                                    <% } %>
-                                                  </select>
-                                                  <input type="text" name="format" value="" style="width:400px" placeholder="Click on the dropdown to edit the question" />
-                                              </div>
-                        </div><br>
-                        <div class="">
-                          Answer : <textarea name="question" rows="1" class="answerPair"  readonly cols="30"><%= generatedQuestion[i].answer %></textarea>
-                          <button type="button" class="span viewAnsBtn" title="View answer log" onclick="viewAnsLog(event)" name="button" data-toggle="modal" data-target="#ansLog<%=generatedQuestion[i].index %>"><i class="w3-xxlarge material-icons">chrome_reader_mode</i></button>
-                          <button type="button" class="span editBtn" title="Edit the answer" name="button"><i class="w3-xxlarge material-icons">edit</i></button>
-                          <button type="button" class="span saveBtn" title="Save the answer" style="visibility:hidden" name="button"><i class="w3-xxlarge material-icons">save</i></button>
-                          <div class="modal" id="ansLog<%=generatedQuestion[i].index %>">
-                            <div class="modal-dialog modal-dialog-scrollable">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h4 class="modal-title">Edited Answer Log</h4>
-                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <tr>
+                        <td>
+                          <div class="review form-control qsPair">
+                            <span class="spanData" id="span<%=generatedQuestion[i].index %>" data-val="<%= JSON.stringify(generatedQuestion[i]) %>" style="display: block;border-radius: 5px 5px 5px;border: 1px solid #777;">
+                              <button type="button" style="float:right" onclick="handleDeleteBtn(event)" title="Delete this question answer pair" class="deleteBtn"><i class="w3-xxlarge material-icons">delete</i></button>
+                              <button type="button" class="span descBtn" style="float:right" title="View Source Paragraph" name="button" onclick="view(event)" data-toggle="modal" data-target="#modal<%=generatedQuestion[i].index %>"><i class="w3-xxlarge material-icons">description</i></button><br>
+                              <div class="">
+                                <table width="100%" style="table-layout:fixed;">
+                                  <tr>
+                                    <th width="70%">Question<button type="button" class="span viewQuesBtn" title="View question log" onclick="viewQuesLog(event)"  data-toggle="modal" data-target="#quesLog<%=generatedQuestion[i].index %>"><i class="w3-xxlarge material-icons">chrome_reader_mode</i></button></th>
+                                    <th width="10%">Confidence</th>
+                                    <th width="20%">Options</th>
+                                  </tr>
+                                  <% for(var j=0; j < generatedQuestion[i].question.length ; j++) {%>
+                                    <tr>
+                                      <td width="70%" class="ques" style="word-wrap:break-word;"><%= generatedQuestion[i].question[j] %></td>
+                                      <td width="10%"> <%=  parseFloat(generatedQuestion[i].score[j]).toFixed(3) %></td>
+                                      <td width="20%">
+                                        <button type="button" class="span editQuesBtn" onclick="handleEditQuesBtn(event)" title="Edit the answer" ><i class="w3-xxlarge material-icons">edit</i></button>
+                                        <button type="button" class="span saveQuesBtn" onclick="handleSaveQuesBtn(event)"  title="Save the answer" style="visibility:hidden"><i class="w3-xxlarge material-icons">save</i></button>
+                                      </td>
+                                    </tr>
+                                  <% } %>
+                                </table>
+                              </div><br>
+                              <div class="">
+                                <label style="padding-bottom:10px;padding-left:7px;padding-right:10px;">Answer : </label><textarea rows="1" class="answerPair" readonly cols="30"><%= generatedQuestion[i].answer %></textarea>
+                                <button type="button" class="span viewAnsBtn" title="View answer log" onclick="viewAnsLog(event)"  data-toggle="modal" data-target="#ansLog<%=generatedQuestion[i].index %>"><i class="w3-xxlarge material-icons">chrome_reader_mode</i></button>
+                                <button type="button" class="span editBtn" onclick="handleEditBtn(event)" title="Edit the answer" ><i class="w3-xxlarge material-icons">edit</i></button>
+                                <button type="button" class="span saveBtn" onclick="handleSaveBtn(event)" title="Save the answer" style="visibility:hidden"><i class="w3-xxlarge material-icons">save</i></button>
+                                <div class="modal" id="ansLog<%=generatedQuestion[i].index %>">
+                                  <div class="modal-dialog modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h4 class="modal-title">Edited Answer Log</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      </div>
+                                      <div class="modal-body">
+                                      </div>
+                                    </div>
+                                  </div>
                                 </div>
-                                <div class="modal-body">
+                                <div class="modal" id="quesLog<%=generatedQuestion[i].index %>">
+                                  <div class="modal-dialog modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h4 class="modal-title">Edited Question Log</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      </div>
+                                      <div class="modal-body">
+                                      </div>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </div>
-                        </div>
 
-                        <div class="modal" id="modal<%=generatedQuestion[i].index %>">
-                          <div class="modal-dialog modal-dialog-scrollable">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h4 class="modal-title">Source Paragraph</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                              <div class="modal" id="modal<%=generatedQuestion[i].index %>">
+                                <div class="modal-dialog modal-dialog-scrollable">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h4 class="modal-title">Source Paragraph</h4>
+                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
-                              <div class="modal-body">
-                              </div>
+                            </span>
                             </div>
-                          </div>
-                        </div>
-                      </span>
-                      </div>
-                    <% } %>
+                        </td>
+                      </tr>
+                      <% } %>
+                      </tbody>
+                    </table>
+
+
                 </div><br>
               </form>
               <div class="col-lg-12">
-                  <button type="button" id="downloadBtn" class="btn btn-primary" style="float:right">Export as json</button>
+                  <button type="button" id="downloadBtn" onclick="exportJSON(event)" class="btn btn-primary" style="float:right">Export as json</button>
               </div>
             </div>
+
+
+
+
+
+
             <div id="grouped_pair" class="tabcontent">
-              <% for(var i=0; i < groupedAnswer.length; i++) {%>
-                <div class="review form-control">
-                  <span id="span<%=i %>" data-val="<%= JSON.stringify(groupedAnswer[i]) %>" style="display: block;border-radius: 5px 5px 5px;border: 1px solid #777;">
-                    <button type="button" style="float:right" title="Delete this question answer pair" class="deleteBtn"><i class="w3-xxlarge material-icons">delete</i></button><br>
-                    <div class="">
-                      <table>
-                        <tr>
-                          <th>Answer</th>
-                          <th>Question</th>
-                          <th></th>
-                        </tr>
-                        <% for(var j=0; j < groupedAnswer[i].length ; j++) {%>
-                          <tr>
-                            <td><textarea name="question" rows="1" class="answer" readonly cols="30"><%= groupedAnswer[i][j].answer %></textarea></td>
-                            <td>
-                              <div class="ques">
-                                  <select onchange="this.nextElementSibling.value=this.value">
-                                    <% for(var k=0; k < groupedAnswer[i][j].question.length ; k++) {%>
-                                      <option value="<%= groupedAnswer[i][j].question[k] %>"><%= groupedAnswer[i][j].question[k] %> <%= parseFloat(groupedAnswer[i][j].score[k]).toFixed(3) %></option>
-                                    <% } %>
-                                  </select>
-                                  <input type="text" name="format" value="" style="width:400px" placeholder="Click on the dropdown to edit the question" />
+              <form id="groupedPairForm" action="/questions" method="post">
+                <div>
+                  <h4 class="groupedPair"></h4><br>
+                  <table class="display" id="groupedPair">
+                    <thead>
+                      <th>Grouped Answers</th>
+                    </thead>
+                    <tbody>
+                  <% for(var i=0; i < groupedAnswer.length; i++) {%>
+                      <tr>
+                        <td>
+                          <div class="review form-control groupPair">
+                            <span id="groupSpan<%=i %>" class="groupSpanData" data-val="<%= JSON.stringify(groupedAnswer[i]) %>" style="display: block;border-radius: 5px 5px 5px;border: 1px solid #777;">
+                              <button type="button" style="float:right" onclick="handleGroupDeleteBtn(event)" title="Delete this group" class="deleteGroupBtn"><i class="w3-xxlarge material-icons">delete</i></button>
+                              <div class="">
+                                <table width="100%" style="table-layout:fixed;">
+                                  <tr>
+                                    <th width="50%">Answer</th>
+                                    <th width="25%">Questions</th>
+                                    <th width="25%">Options</th>
+                                  </tr>
+                                  <% for(var j=0; j < groupedAnswer[i].length ; j++) {%>
+                                    <tr data-val="<%= JSON.stringify(groupedAnswer[i][j]) %>">
+                                        <td width="50%" class="answer" style="word-wrap:break-word;"><textarea  rows="1" class="groupedAnswerPair" readonly cols="30"><%= groupedAnswer[i][j].answer %></textarea></td>
+                                        <td width="25%"> <button type="button" onclick="viewGroupedQuestion(event)" data-toggle="modal" data-target="#groupQues<%=groupedAnswer[i][j].index%>" class="btn btn-info">View question</button> </td>
+                                        <td width="25%">
+                                          <button type="button" class="span viewPairSource" onclick="handleViewPairSource(event)" title="View source Paragraph of this pair" ><i class="w3-xxlarge material-icons">chrome_reader_mode</i></button>
+                                        </td>
+                                        <div class="modal" id="groupQues<%=groupedAnswer[i][j].index %>">
+                                          <div class="modal-dialog modal-dialog-scrollable">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <h4 class="modal-title">Question</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                              </div>
+                                              <div class="modal-body">
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                    </tr>
+                                  <% } %>
+                                </table>
                               </div>
-                            </td>
-                          </tr>
-                        <% } %>
-                      </table>
-                    </div>
-                  </span>
-                  </div>
-                <% } %>
+                            </div>
+                        </td>
+                      </tr>
+                      <% } %>
+                      </tbody>
+                    </table>
+                </div><br>
+              </form>
             </div>
           </div>
-
-
         </div>
       </div>
+
       <div class="col-lg-2">
         <nav class="navbar  bg-secondary navbar-dark sticky-top" style="height:620px">
           <ul class="navbar-nav">

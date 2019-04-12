@@ -20,7 +20,18 @@ body{
   border-bottom-style: dashed;
   border-color: green;
 }
-
+.groupedAnswerPair{
+  resize: none;
+  border:none;
+  border-bottom-style: dashed;
+  border-color: green;
+}
+.questionSelect{
+  resize: none;
+  border:none;
+  border-bottom-style: dashed;
+  border-color: orange;
+}
 .tablink {
   background-color: cadetblue;
   color: white;
@@ -63,7 +74,7 @@ div.review {
             font-weight: bold;
 }
 
-.editBtn,.saveBtn,.deleteBtn,.descBtn,.viewAnsBtn {
+.editBtn,.saveBtn,.deleteBtn,.descBtn,.viewAnsBtn,.saveQuesBtn,.editQuesBtn,.viewQuesBtn,.viewPairSource,.deleteGroupBtn {
   background-color: none;
   border: none;
   background: none;
