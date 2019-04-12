@@ -122,11 +122,6 @@
               </div>
             </div>
 
-
-
-
-
-
             <div id="grouped_pair" class="tabcontent">
               <form id="groupedPairForm" action="/questions" method="post">
                 <div>
@@ -154,13 +149,25 @@
                                         <td width="50%" class="answer" style="word-wrap:break-word;"><textarea  rows="1" class="groupedAnswerPair" readonly cols="30"><%= groupedAnswer[i][j].answer %></textarea></td>
                                         <td width="25%"> <button type="button" onclick="viewGroupedQuestion(event)" data-toggle="modal" data-target="#groupQues<%=groupedAnswer[i][j].index%>" class="btn btn-info">View question</button> </td>
                                         <td width="25%">
-                                          <button type="button" class="span viewPairSource" onclick="handleViewPairSource(event)" title="View source Paragraph of this pair" ><i class="w3-xxlarge material-icons">chrome_reader_mode</i></button>
+                                          <button type="button" class="span viewPairSource" onclick="handleViewPairSource(event)" data-toggle="modal" data-target="#viewGroupAns<%=groupedAnswer[i][j].index%>" title="View source Paragraph of this pair" ><i class="w3-xxlarge material-icons">chrome_reader_mode</i></button>
                                         </td>
                                         <div class="modal" id="groupQues<%=groupedAnswer[i][j].index %>">
                                           <div class="modal-dialog modal-dialog-scrollable">
                                             <div class="modal-content">
                                               <div class="modal-header">
                                                 <h4 class="modal-title">Question</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                              </div>
+                                              <div class="modal-body">
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="modal" id="viewGroupAns<%=groupedAnswer[i][j].index %>">
+                                          <div class="modal-dialog modal-dialog-scrollable">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <h4 class="modal-title">Source Paragraph</h4>
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                               </div>
                                               <div class="modal-body">
@@ -204,7 +211,6 @@
           </ul>
       </div>
     </div>
-
 
     <script src="javascripts/questions.js"></script>
   </body>

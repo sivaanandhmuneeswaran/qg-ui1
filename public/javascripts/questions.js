@@ -14,8 +14,6 @@ $(document).ready(function(){
     if($(this).text() === "Edit question"){
       $(this).parent().find(".ques").attr("readonly",false);
       $(this).parent().find(".origQuestion").css("visibility",'visible');
-      // $(this).parent().find(".saveBtn").css("visibility",'visible');
-      // // alert("hello");
     }
   });
 })
@@ -74,7 +72,6 @@ function handleSaveBtn(event){
   var btn = event.target;
   $(btn).parent().parent().find(".span.saveBtn").css("visibility",'hidden');
   $(btn).parent().parent().parent().find(".answerPair").attr("readonly",true);
-  // var questionPair = $(btn).parent().parent().find("span").data('val');
   var questionPair = $(btn).parent().parent().parent().data('val');
   var editedAns = $(btn).parent().parent().parent().find(".answerPair").val();
   if(questionPair.editedAns)
@@ -183,7 +180,6 @@ function handleGroupDeleteBtn(event){
 function viewGroupedQuestion(event){
   var btn = event.target;
   var questionPair = $(btn).parent().parent().data('val');
-  console.log(questionPair);
   var html = "";
     html = html+`
       <table width="100%" style="table-layout:fixed;">
@@ -199,4 +195,14 @@ function viewGroupedQuestion(event){
     html = html + "</table>";
   var id = "#groupQues" + questionPair.index.toString();
   $(id).find(".modal-body").html(html);
+}
+
+function handleViewPairSource(event){
+  var btn = event.target;
+  var questionPair = $(btn).parent().parent().parent().data('val');
+  var origSentence = $(btn).parent().parent().parent().data('val').tagged_sentence;
+  var taggedSentence = origSentence.replace(/\uffe8O_ANS/gi, '');
+  taggedSentence = taggedSentence.replace(/([\\\\!@#$%^&*\.\'\-\(\)\/<>;\":\?\{\}\[\]+=,a-zA-Z0-9]+)(\uffe8B_ANS|\uffe8I_ANS)/gi, '<span style="color:white;background-color:green">$1</span>');
+  var id = "#viewGroupAns" + questionPair.index.toString();
+  $(id).find(".modal-body").html(taggedSentence);
 }

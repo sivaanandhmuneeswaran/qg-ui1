@@ -4,7 +4,7 @@ var fs = require('fs');
 var path = require("path");
 var spawn = require("child_process").spawnSync;
 const session = require('express-session');
-/* GET home page. */
+
 npTaggedPara = null
 nerTaggedPara = null
 
@@ -15,8 +15,8 @@ router.get('/', function(req, res, next) {
 
 router.post('/', async function (req, res, next) {
   var input = req.body.para.toLowerCase();
-  var pythonPath = "python ";
-  var codePath = __basedir + "/python_code/create_para.py ";
+  var pythonPath = "python3.6 ";
+  var codePath = __basedir + "/python_code/create_para_v1.py ";
   var generateParaCommand = pythonPath + codePath ;
   input = input.replace(/((\"|\\))/gi,("\\"+'$1'));
   input = "\"" + input + "\""
@@ -24,15 +24,22 @@ router.post('/', async function (req, res, next) {
    encoding: 'utf-8'});
   var new_input = await result.stdout.toString().replace(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w\-_]*)#?(?:[\.\!\/\\\w\-]*))?)/gi, '<span class="atsign">$1<button type="button" title="Delete" class="reviewDeleteBtn"><i class="w3-small fa fa-trash"></i></button></span>');
   new_input = await new_input.replace(/([^\\\\\s!@#$%^&*\.\'\-\(\)\/<>;\":\?\{\}\[\]+=,a-zA-Z0-9])/gi, '<span class="atsign">$1<button type="button" title="Delete" class="reviewDeleteBtn"><i class="w3-small fa fa-trash"></i></button></span>');
-  new_input = await new_input.replace(/\n/gi, '<br>');
+  new_input = await new_input.replace(/\n/gi, ' <br>');
   res.render('review',{input:new_input})
 });
 
 router.post('/keywords', function(req,res,next){
   var input = req.body.para.toLowerCase();
+  var tempInp = input.split(" ");
+  input = ""
+  for(var k=0; k < tempInp.length; k++){
+    if(tempInp[k] && tempInp[k] != '\r\n'){
+      input = input + tempInp[k] + " ";
+    }
+  }
   input = input.replace(/((\"|\\))/gi,("\\"+'$1'));
-  var pythonPath = "python ";
-  var codePath = __basedir + "/python_code/create_para.py ";
+  var pythonPath = "python3.6 ";
+  var codePath = __basedir + "/python_code/create_para_v1.py ";
   var generateParaCommand = pythonPath + codePath ;
   input = "\"" + input + "\""
   var result = spawn(generateParaCommand,[input],{shell:true,
@@ -49,7 +56,6 @@ router.post('/keywords', function(req,res,next){
   generateTaggedParaCommand = pythonPath + tagCodePath;
   var result_ner = spawn(generateTaggedParaCommand,[inpParaFile],{shell:true,
    encoding: 'utf-8'});
-
   npTaggedPara = JSON.parse(result_np.stdout);
   nerTaggedPara = JSON.parse(result_ner.stdout);
   res.render('select_keywords',{np_tagged_para:npTaggedPara,ner_tagged_para:nerTaggedPara});
@@ -94,14 +100,13 @@ router.post('/questions',function(request, response,next){
   }
   inputFilePath = __basedir + "/qg_para/group_answers.json";
   fs.writeFileSync(inputFilePath,JSON.stringify(keywordArr));
-  var pythonPath = "python ";
+  var pythonPath = "python3.6 ";
   var codePath = __basedir + "/python_code/v1_group.py ";
   var groupCommand = pythonPath + codePath + inputFilePath;
   var result = spawn(groupCommand,{shell:true,
    encoding: 'utf-8'});
    groupedAnswer = JSON.parse(result.stdout);
    response.render('questions',{generatedQuestion:keywordArr,groupedAnswer:groupedAnswer});
-  // response.send("hello");
 });
 
 module.exports = router;
