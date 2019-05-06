@@ -98,15 +98,25 @@ router.post('/questions',function(request, response,next){
     keywordArr[i].question = questionPair.tgt;
     keywordArr[i].score = questionPair.pred_score;
   }
-  inputFilePath = __basedir + "/qg_para/group_answers.json";
+  inputFilePath = __basedir + "/qg_para/generated_questions.json";
   fs.writeFileSync(inputFilePath,JSON.stringify(keywordArr));
+  var pythonPath = "python3.6 ";
+  var bertPath = __basedir + "/python_code/pytorch-pretrained-BERT/"
+  var codePath = bertPath + "predict.py --bert_model bert-base-uncased --model " + bertPath + "output/pytorch_model.bin --do_predict --do_lower_case --predict_file "+ inputFilePath + " --max_seq_length 384 --doc_stride 128 --config_file "+bertPath+"output/config.json --output_dir "+ bertPath+"output1 --version_2_with_negative";
+  var filterCommand = pythonPath + codePath;
+  var result = spawn(filterCommand,{shell:true,
+   encoding: 'utf-8'});
+
+  var inputFilePath = __basedir + "/qg_para/filtered_questions.json"
+  var filtered_questions = JSON.parse(fs.readFileSync(inputFilePath));
   var pythonPath = "python3.6 ";
   var codePath = __basedir + "/python_code/v1_group.py ";
   var groupCommand = pythonPath + codePath + inputFilePath;
   var result = spawn(groupCommand,{shell:true,
    encoding: 'utf-8'});
    groupedAnswer = JSON.parse(result.stdout);
-   response.render('questions',{generatedQuestion:keywordArr,groupedAnswer:groupedAnswer});
+   response.render('questions',{generatedQuestion:filtered_questions,groupedAnswer:groupedAnswer});
+  // response.send("hello");
 });
 
 module.exports = router;
